@@ -1,0 +1,20 @@
+{
+	"author": "Andrew Taylor <andrew@andrewt.net>",
+	"name": "fish",
+	"description": "..",
+	"version": "0.0.0",
+	"repository": {
+		"type": "git",
+		"url": "git://github.com/andrew-t/fish.git"
+	},
+	"dependencies": {
+		"markov": "*",
+		"cheerio": "*",
+		"request": "*"
+	},
+	"devDependencies": {},
+	"optionalDependencies": {},
+	"engines": {
+		"node": "*"
+	}
+}
