@@ -25,6 +25,9 @@ module.exports = function Fish(cache) {
 								.replace(/\s+\([^\(]+\)[^a-z]*$/i, ''));
 						});
 				});
+			allFacts = allFacts.filter(function(fact) {
+				return fact != "This is a special \"Worst Of\" episode, consisting of clips removed from the original podcasts.";
+			});
 			generateMarkov();
 		});
 	function sanitise(fact) {
