@@ -55,8 +55,9 @@ module.exports = function Fish(cache) {
 					.filter(function(a) { return a; }),
 				seed = fact[0] + ' ' + fact[1],
 				key = m.search(seed);
-			newFact = seed + ' ' + m.forward(key, 100).join(' ').trim();
-		} while (~sanitisedFacts.indexOf(sanitise(newFact)));
+			newFact = (seed + ' ' + m.forward(key, 100).join(' ')).trim();
+		} while (~sanitisedFacts.indexOf(sanitise(newFact)) ||
+			newFact.split(/ /g).length < 3);
 		return newFact;
 	};
 };
