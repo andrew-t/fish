@@ -1,13 +1,11 @@
 var Fish = require('./fish.js'),
 	Twitter = require('twit'),
 	fs = require('fs'),
-	//t = new Twit(JSON.parse(fs.readFileSync('creds.json'))),
-	t = { post:function(u,p,c){ console.log(p.status); c(); }},
+	t = new Twitter(JSON.parse(fs.readFileSync('creds.json'))), /*
+	t = { post:function(u,p,c){ console.log(p.status); c(); }}, //*/
 	fish;
 
-function refresh() {
-	fish = new Fish();
-}
+function refresh() { fish = new Fish(); }
 refresh();
 setInterval(refresh, 1000 * 60 * 60 * 24);
 
@@ -41,4 +39,4 @@ setInterval(function() {
 			tweet();
 		}
 	});
-}, 1000); //1000 * 60 * 60 * 3);
+}, 1000 * 60 * 60 * 3);
