@@ -1,10 +1,8 @@
 var Markov = require('markov'),
 	request = require('request'),
-	fs = require('fs'),
-	$ = require('cheerio'),
-	factCount = 100;
+	$ = require('cheerio');
 
-function Fish(cache) {
+module.exports = function Fish(cache) {
 	var allFacts,
 		sanitisedFacts,
 		then = [],
@@ -58,12 +56,4 @@ function Fish(cache) {
 		} while (~sanitisedFacts.indexOf(sanitise(newFact)));
 		return newFact;
 	};
-}
-
-var fish = new Fish(fs.existsSync('facts.json') &&
-			JSON.parse(fs.readFileSync('facts.json')));
-fish.then(function(m, facts) {
-	fs.writeFileSync('facts.json', JSON.stringify(facts, null, 2));
-	for (var i = 0; i < factCount; ++i)
-		console.log(i + 1 + '. ' + fish.getFact());
-});
+};

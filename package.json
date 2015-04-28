@@ -10,7 +10,8 @@
 	"dependencies": {
 		"markov": "*",
 		"cheerio": "*",
-		"request": "*"
+		"request": "*",
+		"twit": "*"
 	},
 	"devDependencies": {},
 	"optionalDependencies": {},
