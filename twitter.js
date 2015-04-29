@@ -5,11 +5,13 @@ var Fish = require('./fish.js'),
 	t = { post:function(u,p,c){ console.log(p.status); c(); }}, //*/
 	fish;
 
-function refresh() { fish = new Fish(); }
 refresh();
 setInterval(refresh, 1000 * 60 * 60 * 24);
+function refresh() { fish = new Fish(); }
 
-setInterval(function() {
+tweetAFact();
+setInterval(tweetAFact, 1000 * 60 * 60 * 3);
+function tweetAFact() {
 	fish.then(function() {
 		var fact = fish.getFact();
 		if (fact.length <= 140)
@@ -41,4 +43,4 @@ setInterval(function() {
 			tweet();
 		}
 	});
-}, 1000 * 60 * 60 * 3);
+}
