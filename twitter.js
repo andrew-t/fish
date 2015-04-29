@@ -22,7 +22,7 @@ function tweetAFact() {
 		if (fact.length <= 140)
 			t.post('statuses/update', {
 				status: fact
-			}, function(err, data, response) {});
+			}, logError);
 		else {
 			fact = [fact];
 			while (fact[fact.length - 1].length > 130) {
@@ -42,10 +42,18 @@ function tweetAFact() {
 				t.post('statuses/update', {
 					status: fact.shift()
 				}, function(err, data, response) {
+					logError(err);
 					if (fact.length) tweet();
 				});
 			}
 			tweet();
 		}
 	});
+}
+
+function logError(err) {
+	if (err) {
+		console.log('Error:');
+		console.dir(err);
+	}
 }
