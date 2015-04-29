@@ -1,5 +1,5 @@
 var Markov = require('markov'),
-	request = require('request'),
+	http = require('http'),
 	$ = require('cheerio');
 
 module.exports = function Fish(cache, order) {
@@ -13,25 +13,32 @@ module.exports = function Fish(cache, order) {
 		allFacts = cache;
 		generateMarkov();
 	} else
-		request({
-			uri: 'http://en.wikipedia.org/wiki/No_Such_Thing_as_a_Fish',
-			proxy: 'http://www-cache.reith.bbc.co.uk:80'
-		}, function(err, resp, body) {
-			allFacts = [];
-			$(body).find('td.description')
-				.each(function() {
-					$(this).text()
-						.trim()
-						.split(/\n+/)
-						.forEach(function(fact) {
-							allFacts.push(fact.trim()
-								.replace(/\s+\([^\(]+\)[^a-z]*$/i, ''));
-						});
+		http.get({
+			host: 'en.wikipedia.org',
+			path: '/wiki/No_Such_Thing_as_a_Fish'
+		}, function(resp) {
+			var body = '';
+			resp.on('data', function(chunk) { body += chunk; });
+			resp.on('end', function() {
+				allFacts = [];
+				$(body).find('td.description')
+					.each(function() {
+						$(this).text()
+							.trim()
+							.split(/\n+/)
+							.forEach(function(fact) {
+								allFacts.push(fact.trim()
+									.replace(/\s+\([^\(]+\)[^a-z]*$/i, ''));
+							});
+					});
+				allFacts = allFacts.filter(function(fact) {
+					return fact != "This is a special \"Worst Of\" episode, consisting of clips removed from the original podcasts.";
 				});
-			allFacts = allFacts.filter(function(fact) {
-				return fact != "This is a special \"Worst Of\" episode, consisting of clips removed from the original podcasts.";
+				generateMarkov();
+			}).on('error', function(err) {
+				console.log('Error:');
+				console.dir(err);
 			});
-			generateMarkov();
 		});
 	function sanitise(fact) {
 		return fact.toLowerCase().replace(/[^a-z ]/g, '').trim();
@@ -53,12 +60,15 @@ module.exports = function Fish(cache, order) {
 	this.getFact = function() {
 		var newFact;
 		do {
-			var fact = allFacts[Math.floor(Math.random() * allFacts.length)]
+			var fact = allFacts[0|(Math.random() * allFacts.length)]
 					.split(/\W/)
 					.filter(function(a) { return a; }),
-				seed = fact.slice(0, order).join(' '),
+				offset = 0|(Math.random() * order),
+				seed = fact.slice(offset, order).join(' '),
 				key = m.search(seed);
-			newFact = (seed + ' ' + m.forward(key, 100).join(' ')).trim();
+			newFact = (fact.slice(0, offset).join(' ') + ' ' +
+				seed +
+				' ' + m.forward(key, 100).join(' ')).trim();
 		} while (~sanitisedFacts.indexOf(sanitise(newFact)) ||
 			newFact.split(/ /g).length <= order);
 		return newFact;
