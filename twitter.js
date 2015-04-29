@@ -19,12 +19,14 @@ setInterval(function() {
 		else {
 			fact = [fact];
 			while (fact[fact.length - 1].length > 130) {
-				var bits = fact.pop().split(' '),
-					last = '';
-				while (last.length + bits[0].length < 129)
-					last += (last && ' ') + bits.shift();
+				for (var bits = fact.pop().split(' '), last = '';
+					bits.length;
+					last += (last && ' ') + bits.shift())
+					if ((last.length + (bits[0] || '').length) > 129) {
+						fact.push(last);
+						last = '';
+					}
 				fact.push(last);
-				fact.push(bits.join(' '));
 			}
 			fact = fact.map(function(f, i) {
 				return f + ' (' + (i + 1) + '/' + fact.length + ')';
