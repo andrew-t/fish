@@ -4,7 +4,7 @@ var Markov = require('markov'),
 
 module.exports = function Fish(cache, order) {
 	if (!order)
-		order == 2;
+		order = 2;
 	var allFacts,
 		sanitisedFacts,
 		then = [],
