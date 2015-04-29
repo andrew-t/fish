@@ -2,17 +2,20 @@ var Markov = require('markov'),
 	request = require('request'),
 	$ = require('cheerio');
 
-module.exports = function Fish(cache) {
+module.exports = function Fish(cache, order) {
+	if (!order)
+		order == 2;
 	var allFacts,
 		sanitisedFacts,
 		then = [],
-		m = new Markov(2);
+		m = new Markov(order);
 	if (cache) {
 		allFacts = cache;
 		generateMarkov();
 	} else
 		request({
-			uri: 'http://en.wikipedia.org/wiki/No_Such_Thing_as_a_Fish'
+			uri: 'http://en.wikipedia.org/wiki/No_Such_Thing_as_a_Fish',
+			proxy: 'http://www-cache.reith.bbc.co.uk:80'
 		}, function(err, resp, body) {
 			allFacts = [];
 			$(body).find('td.description')
@@ -53,11 +56,11 @@ module.exports = function Fish(cache) {
 			var fact = allFacts[Math.floor(Math.random() * allFacts.length)]
 					.split(/\W/)
 					.filter(function(a) { return a; }),
-				seed = fact[0] + ' ' + fact[1],
+				seed = fact.slice(0, order).join(' '),
 				key = m.search(seed);
 			newFact = (seed + ' ' + m.forward(key, 100).join(' ')).trim();
 		} while (~sanitisedFacts.indexOf(sanitise(newFact)) ||
-			newFact.split(/ /g).length < 3);
+			newFact.split(/ /g).length <= order);
 		return newFact;
 	};
 };
