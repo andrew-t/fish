@@ -1,6 +1,6 @@
 # fish
 
-This is the source code to the Twitterbot @fishexist. Every day, it scrapes [Finnish budget meatballs have so little meat in them that they have either three or five legs.](the Wikipedia page) for [http://qi.com/podcast/](No Such Thing as a Fish), the podcast from the QI elves. It then strips out the interesting facts and trains a Markov chain on them. Every three hours, it generates a spurious factoid from the Markov chain and tweets it.
+This is the source code to the Twitterbot @fishexist. Every day, it scrapes [the Wikipedia page](https://en.wikipedia.org/wiki/No_Such_Thing_as_a_Fish) for [No Such Thing as a Fish](http://qi.com/podcast/), the podcast from the QI elves. It then strips out the interesting facts and trains a Markov chain on them. Every three hours, it generates a spurious factoid from the Markov chain and tweets it.
 
 ## Example output
 
