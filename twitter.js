@@ -38,12 +38,17 @@ function tweetAFact() {
 			fact = fact.map(function(f, i) {
 				return f + ' (' + (i + 1) + '/' + fact.length + ')';
 			});
-			function tweet() {
-				t.post('statuses/update', {
-					status: fact.shift()
-				}, function(err, data, response) {
+			function tweet(replyTo) {
+				var status = fact.shift();
+				t.post('statuses/update', replyTo
+					? {
+						status: status,
+						in_reply_to_status_id: replyTo
+					} : {
+						status: status
+					}, function(err, data, response) {
 					logError(err);
-					if (fact.length) tweet();
+					if (fact.length) tweet(data.id_str);
 				});
 			}
 			tweet();
