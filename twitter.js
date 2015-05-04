@@ -47,9 +47,11 @@ function tweetAFact() {
 					} : {
 						status: status
 					}, function(err, data, response) {
-					logError(err);
-					if (fact.length) tweet(data.id_str);
-				});
+						logError(err);
+						console.dir(data);
+						if (fact.length)
+							tweet(data.id_str);
+					});
 			}
 			tweet();
 		}
