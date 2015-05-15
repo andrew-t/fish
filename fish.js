@@ -1,4 +1,4 @@
-var Markov = require('markov'),
+var Markov = require('./Markov/markov'),
 	http = require('http'),
 	$ = require('cheerio');
 
@@ -41,13 +41,12 @@ module.exports = function Fish(cache, order) {
 			});
 		});
 	function sanitise(fact) {
-		return fact.toLowerCase().replace(/[^a-z ]/g, '').trim();
+		return fact.toLowerCase().replace(/[^a-z]/g, '').trim();
 	}
 	function generateMarkov() {
 		sanitisedFacts = allFacts.map(sanitise);
 		allFacts.forEach(function(fact) {
-			m.seed(fact);
-			m.seed(fact.replace(/^[^ ]+ /, ''));
+			m.train(fact);
 		});
 		then.forEach(function(callback) {
 			callback(m, allFacts);
@@ -60,15 +59,7 @@ module.exports = function Fish(cache, order) {
 	this.getFact = function() {
 		var newFact;
 		do {
-			var fact = allFacts[0|(Math.random() * allFacts.length)]
-					.split(/\W/)
-					.filter(function(a) { return a; }),
-				offset = 0|(Math.random() * order),
-				seed = fact.slice(offset, order).join(' '),
-				key = m.search(seed);
-			newFact = (fact.slice(0, offset).join(' ') + ' ' +
-				seed +
-				' ' + m.forward(key, 100).join(' ')).trim();
+			newFact = m.ramble().trim();
 		} while (~sanitisedFacts.indexOf(sanitise(newFact)) ||
 			newFact.split(/ /g).length <= order);
 		return newFact;

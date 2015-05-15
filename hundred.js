@@ -1,7 +1,7 @@
 var Fish = require('./fish.js'),
 	fs = require('fs'),
 	factCount = 100,
-	order = 2;
+	order = parseInt(process.argv[2] || '2', 10);
 
 var fish = new Fish(fs.existsSync('facts.json') &&
 			JSON.parse(fs.readFileSync('facts.json')),

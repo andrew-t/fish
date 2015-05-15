@@ -8,7 +8,6 @@
 		"url": "git://github.com/andrew-t/fish.git"
 	},
 	"dependencies": {
-		"markov": "*",
 		"cheerio": "*",
 		"twit": "*"
 	},
