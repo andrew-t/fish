@@ -1,5 +1,5 @@
 var Markov = require('./Markov/markov'),
-	http = require('http'),
+	https = require('https'),
 	$ = require('cheerio');
 
 module.exports = function Fish(cache, order) {
@@ -13,7 +13,7 @@ module.exports = function Fish(cache, order) {
 		allFacts = cache;
 		generateMarkov();
 	} else
-		http.get({
+		https.get({
 			host: 'en.wikipedia.org',
 			path: '/wiki/No_Such_Thing_as_a_Fish'
 		}, function(resp) {
