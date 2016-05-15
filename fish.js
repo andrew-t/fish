@@ -21,6 +21,7 @@ module.exports = function Fish(cache, order) {
 			resp.on('data', function(chunk) { body += chunk; });
 			resp.on('end', function() {
 				allFacts = [];
+console.log(body);
 				$(body).find('td.description')
 					.each(function() {
 						$(this).text()
@@ -34,6 +35,7 @@ module.exports = function Fish(cache, order) {
 				allFacts = allFacts.filter(function(fact) {
 					return fact != "This is a special \"Worst Of\" episode, consisting of clips removed from the original podcasts.";
 				});
+console.log(allFacts);
 				generateMarkov();
 			}).on('error', function(err) {
 				console.log('Error:');
