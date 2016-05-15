@@ -24,18 +24,19 @@ function tweetAFact() {
 				status: fact
 			}, logError);
 		else {
-			fact = [fact];
-			while (fact[fact.length - 1].length > 130) {
-				for (var bits = fact.pop().split(' '), last = '';
-					bits.length;
-					last += (last && ' ') + bits.shift())
-					if ((last.length + (bits[0] || '').length) > 129) {
-						fact.push(last);
-						last = '';
-					}
-				fact.push(last);
+			var factLines = [];
+			while (fact.length > 130) {
+				var didIt = false;
+				for (var i = 129; i > 0 && !didIt; --i)
+					if (fact[i] == ' ')
+						didIt = true;
+				if (!didIt)
+					i = 129;
+				factLines.push(fact.substr(0, i));
+				fact = fact.substr(i + 1);
 			}
-			fact = fact.map(function(f, i) {
+			factLines.push(fact);
+			fact = factLines.map(function(f, i) {
 				return f + ' (' + (i + 1) + '/' + fact.length + ')';
 			});
 			function tweet(replyTo) {
