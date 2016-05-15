@@ -17,7 +17,7 @@ function refresh() {
 tweetAFact();
 setInterval(tweetAFact, 1000 * 60 * 60 * 3);
 function tweetAFact() {
-	fish.then(function() {
+	fish.then(function() { try {
 		var fact = fish.getFact();
 		if (fact.length <= 140)
 			t.post('statuses/update', {
@@ -58,7 +58,9 @@ function tweetAFact() {
 			}
 			tweet();
 		}
-	}).catch(logError);
+	} catch (e) {
+		console.err('Error: ', e);
+	}});
 }
 
 function logError(err) {
