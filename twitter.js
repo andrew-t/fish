@@ -28,8 +28,10 @@ function tweetAFact() {
 			while (fact.length > 130) {
 				var didIt = false;
 				for (var i = 129; i > 0 && !didIt; --i)
-					if (fact[i] == ' ')
+					if (fact[i] == ' ') {
 						didIt = true;
+						break;
+					}
 				if (!didIt)
 					i = 129;
 				factLines.push(fact.substr(0, i));
