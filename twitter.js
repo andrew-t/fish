@@ -56,7 +56,7 @@ function tweetAFact() {
 			}
 			tweet();
 		}
-	});
+	}).catch(logError);
 }
 
 function logError(err) {
