@@ -37,7 +37,7 @@ function tweetAFact() {
 			}
 			factLines.push(fact);
 			fact = factLines.map(function(f, i) {
-				return f + ' (' + (i + 1) + '/' + fact.length + ')';
+				return f + ' (' + (i + 1) + '/' + factList.length + ')';
 			});
 			function tweet(replyTo) {
 				var status = fact.shift();
