@@ -59,7 +59,7 @@ function tweetAFact() {
 			tweet();
 		}
 	} catch (e) {
-		console.err('Error: ', e);
+		console.error('Error: ', e);
 	}});
 }
 
