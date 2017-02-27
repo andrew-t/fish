@@ -15,7 +15,7 @@ module.exports = function Fish(cache, order) {
 	} else
 		https.get({
 			host: 'en.wikipedia.org',
-			path: '/wiki/No_Such_Thing_as_a_Fish'
+			path: '/wiki/List_of_No_Such_Thing_as_a_Fish_episodes'
 		}, function(resp) {
 			var body = '';
 			resp.on('data', function(chunk) { body += chunk; });

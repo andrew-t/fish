@@ -39,7 +39,7 @@ function tweetAFact() {
 			}
 			factLines.push(fact);
 			fact = factLines.map(function(f, i) {
-				return f + ' (' + (i + 1) + '/' + factList.length + ')';
+				return f + ' (' + (i + 1) + '/' + factLines.length + ')';
 			});
 			function tweet(replyTo) {
 				var status = fact.shift();
@@ -59,7 +59,7 @@ function tweetAFact() {
 			tweet();
 		}
 	} catch (e) {
-		console.error('Error: ', e);
+		console.error('Error: ', e.stack);
 	}});
 }
 
