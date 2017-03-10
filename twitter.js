@@ -19,6 +19,8 @@ setInterval(tweetAFact, 1000 * 60 * 60 * 3);
 function tweetAFact() {
 	fish.then(function() { try {
 		var fact = fish.getFact();
+		console.log('I have decided that: ' + fact);
+		console.log('Length = ' + fact.length);
 		if (fact.length <= 140)
 			t.post('statuses/update', {
 				status: fact
@@ -38,11 +40,13 @@ function tweetAFact() {
 				fact = fact.substr(i + 1);
 			}
 			factLines.push(fact);
+			console.log('Tweets: \n' + factLines.join('\n'));
 			fact = factLines.map(function(f, i) {
 				return f + ' (' + (i + 1) + '/' + factLines.length + ')';
 			});
 			function tweet(replyTo) {
 				var status = fact.shift();
+				console.log('Tweeting ' + status);
 				t.post('statuses/update', replyTo
 					? {
 						status: status,
