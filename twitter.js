@@ -1,25 +1,15 @@
 var Fish = require('./fish.js'),
 	Twitter = require('twit'),
 	fs = require('fs'),
-	t = new Twitter(JSON.parse(fs.readFileSync('creds.json'))), /*
-	t = { post:function(u,p,c){ console.log(p.status); c(); }}, //*/
-	fish;
+	t = new Twitter(JSON.parse(fs.readFileSync('creds.json')));
 
-refresh();
-setInterval(refresh, 1000 * 60 * 60 * 24);
-function refresh() {
-	fish = new Fish();
-	fish.then(function() {
-		console.log('Initialised');
-	});
-}
+// Debug Twitter Client:
+// t = { post:function(u,p,c){ console.log(p.status); c(); }};
 
-tweetAFact();
-console.log('Scheduling future facts');
-setInterval(tweetAFact, 1000 * 60 * 60 * 3);
-function tweetAFact() {
-	console.log('Scheduled fact time!');
-	fish.then(function() { try {
+var fish = new Fish();
+fish.then(function() {
+	console.log('Initialised');
+	try {
 		console.log('Hmmmm, let me see...');
 		var fact = fish.getFact();
 		console.log('I have decided that: ' + fact);
@@ -67,8 +57,8 @@ function tweetAFact() {
 		}
 	} catch (e) {
 		console.error('Error: ', e.stack);
-	}});
-}
+	}
+});
 
 function logError(err) {
 	if (err) {
