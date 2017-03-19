@@ -15,9 +15,12 @@ function refresh() {
 }
 
 tweetAFact();
+console.log('Scheduling future facts');
 setInterval(tweetAFact, 1000 * 60 * 60 * 3);
 function tweetAFact() {
+	console.log('Scheduled fact time!');
 	fish.then(function() { try {
+		console.log('Hmmmm, let me see...');
 		var fact = fish.getFact();
 		console.log('I have decided that: ' + fact);
 		console.log('Length = ' + fact.length);
