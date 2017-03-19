@@ -1,7 +1,7 @@
 var Fish = require('./fish.js'),
 	Twitter = require('twit'),
 	fs = require('fs'),
-	t = new Twitter(JSON.parse(fs.readFileSync(__dirname + 'creds.json')));
+	t = new Twitter(JSON.parse(fs.readFileSync(__dirname + '/creds.json')));
 
 // Debug Twitter Client:
 // t = { post:function(u,p,c){ console.log(p.status); c(); }};
