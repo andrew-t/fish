@@ -14,22 +14,17 @@ module.exports = function Fish(cache, order) {
 		generateMarkov();
 	} else
 		https.get({
-			host: 'en.wikipedia.org',
-			path: '/wiki/List_of_No_Such_Thing_as_a_Fish_episodes'
+			host: 'github.com',
+			path: '/andrew-t/fish/wiki/List-of-No-Such-Thing-as-a-Fish-Episodes'
 		}, function(resp) {
 			var body = '';
 			resp.on('data', function(chunk) { body += chunk; });
 			resp.on('end', function() {
 				allFacts = [];
-				$(body).find('td.description')
+				$(body).find('#wiki-body li')
 					.each(function() {
-						$(this).text()
-							.trim()
-							.split(/\n+/)
-							.forEach(function(fact) {
-								allFacts.push(fact.trim()
-									.replace(/\s+\([^\(]+\)[^a-z]*$/i, ''));
-							});
+						allFacts.push($(this).text().trim()
+							.replace(/\s+\([^\(]+\)[^a-z]*$/i, ''));
 					});
 				allFacts = allFacts.filter(function(fact) {
 					return fact != "This is a special \"Worst Of\" episode, consisting of clips removed from the original podcasts.";
