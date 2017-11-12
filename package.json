@@ -9,6 +9,7 @@
 	},
 	"dependencies": {
 		"cheerio": "*",
+		"markov-fish": "0.0.1",
 		"twit": "*"
 	},
 	"devDependencies": {},

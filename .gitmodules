@@ -1,3 +1,0 @@
-[submodule "markov"]
-	path = markov
-	url = git@github.com:andrew-t/markov.git

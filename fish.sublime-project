@@ -1,0 +1,13 @@
+{
+	"folders":
+	[
+		{
+			"path": ".",
+			"folder_exclude_patterns": [ "node_modules" ]
+		},
+		{
+			"path": "../markov",
+			"folder_exclude_patterns": [ "node_modules" ]
+		}
+	]
+}

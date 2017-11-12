@@ -1,4 +1,4 @@
-var Markov = require('./Markov/markov'),
+var Markov = require('markov-fish'),
 	https = require('https'),
 	$ = require('cheerio');
 
