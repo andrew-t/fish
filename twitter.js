@@ -14,21 +14,21 @@ fish.then(function() {
 		var fact = fish.getFact();
 		console.log('I have decided that: ' + fact);
 		console.log('Length = ' + fact.length);
-		if (fact.length <= 140)
+		if (fact.length <= 280)
 			t.post('statuses/update', {
 				status: fact
 			}, logError);
 		else {
 			var factLines = [];
-			while (fact.length > 130) {
+			while (fact.length > 270) {
 				var didIt = false;
-				for (var i = 129; i > 0 && !didIt; --i)
+				for (var i = 269; i > 0 && !didIt; --i)
 					if (fact[i] == ' ') {
 						didIt = true;
 						break;
 					}
 				if (!didIt)
-					i = 129;
+					i = 269;
 				factLines.push(fact.substr(0, i));
 				fact = fact.substr(i + 1);
 			}
