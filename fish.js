@@ -11,6 +11,27 @@ function getDom(url) {
 		}).on('error', reject));
 }
 
+async function episodeList() {
+	const dom = await getDom('https://nstaaf.fandom.com/wiki/List_of_Episodes_of_No_Such_Thing_As_A_Fish');
+	const eps = [];
+	dom.find('.mw-parser-output #toc ~ ul a')
+		.each((i, n) => {
+			const url = $(n).attr('href');
+			if (url && url[0] == '/')
+				eps.push('https://nstaaf.fandom.com' + url);
+			else console.log('Skipping blank link:', $(n).text());
+		});
+	return eps;
+}
+
+async function episodeFacts(url) {
+	const dom = await getDom(url);
+	const facts = [];
+	dom.find('#Facts').parent().next('ul').find('li')
+		.each((i, n) => facts.push(clean($(n).text())));
+	return facts;
+}
+
 function sanitise(fact) {
 	return fact.toLowerCase().replace(/[^a-z]/g, '').trim();
 }
@@ -27,14 +48,10 @@ module.exports = async function Fish(cache, order = 2) {
 	if (cache) {
 		facts = cache;
 	} else {
-		const dom = await getDom({
-			host: 'github.com',
-			path: '/andrew-t/fish/wiki/List-of-No-Such-Thing-as-a-Fish-Episodes'
-		});
 		facts = [];
-		dom.find('#wiki-body li').each((i, n) =>
-			facts.push(clean($(n).text())));
-		facts = facts.filter(fact => fact != "This is a special \"Worst Of\" episode, consisting of clips removed from the original podcasts.");
+		for (const ep of await episodeList())
+			for (const fact of await episodeFacts(ep))
+				facts.push(fact);
 	}
 
 	sanitisedFacts = facts.map(sanitise);
