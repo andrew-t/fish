@@ -1,4 +1,4 @@
-var Fish = require('./fish.js'),
+const Fish = require('./fish.js'),
 	Twitter = require('twit'),
 	fs = require('fs'),
 	t = new Twitter(JSON.parse(fs.readFileSync(__dirname + '/creds.json')));
@@ -6,39 +6,38 @@ var Fish = require('./fish.js'),
 // Debug Twitter Client:
 // t = { post:function(u,p,c){ console.log(p.status); c(); }};
 
-var fish = new Fish();
-fish.then(function() {
-	console.log('Initialised');
+(async function() {
 	try {
+		const { getFact } = await Fish();
+		console.log('Initialised');
 		console.log('Hmmmm, let me see...');
-		var fact = fish.getFact();
+		const fact = getFact();
 		console.log('I have decided that: ' + fact);
 		console.log('Length = ' + fact.length);
 		if (fact.length <= 280)
-			t.post('statuses/update', {
-				status: fact
-			}, logError);
+			t.post('statuses/update', { status: fact }, err => {
+				if (err) console.error('Error: ', err.stack);
+			});
 		else {
-			var factLines = [];
+			const factLines = [];
 			while (fact.length > 270) {
-				var didIt = false;
-				for (var i = 269; i > 0 && !didIt; --i)
+				let didIt = false;
+				for (let i = 269; i > 0 && !didIt; --i)
 					if (fact[i] == ' ') {
 						didIt = true;
 						break;
 					}
-				if (!didIt)
-					i = 269;
+				if (!didIt) i = 269;
 				factLines.push(fact.substr(0, i));
 				fact = fact.substr(i + 1);
 			}
 			factLines.push(fact);
 			console.log('Tweets: \n' + factLines.join('\n'));
-			fact = factLines.map(function(f, i) {
-				return f + ' (' + (i + 1) + '/' + factLines.length + ')';
-			});
+			fact = factLines.map((f, i) =>
+				f + ' (' + (i + 1) + '/' + factLines.length + ')');
+
 			function tweet(replyTo) {
-				var status = fact.shift();
+				const status = fact.shift();
 				console.log('Tweeting ' + status);
 				t.post('statuses/update', replyTo
 					? {
@@ -46,23 +45,16 @@ fish.then(function() {
 						in_reply_to_status_id: replyTo
 					} : {
 						status: status
-					}, function(err, data, response) {
-						logError(err);
+					}, (err, data, response) => {
+						console.error('Error: ', err.stack);
 						console.dir(data);
-						if (fact.length)
-							tweet(data.id_str);
+						if (fact.length) tweet(data.id_str);
 					});
 			}
+
 			tweet();
 		}
 	} catch (e) {
 		console.error('Error: ', e.stack);
 	}
-});
-
-function logError(err) {
-	if (err) {
-		console.log('Error:');
-		console.dir(err);
-	}
-}
+})();

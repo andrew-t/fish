@@ -1,6 +1,6 @@
 # fish
 
-This is the source code to the Twitterbot @fishexist. Every day, it scrapes [this episode list](https://github.com/andrew-t/fish/wiki/List-of-No-Such-Thing-as-a-Fish-Episodes) for [No Such Thing as a Fish](http://qi.com/podcast/), the podcast from the QI elves. It then strips out the interesting facts and trains a Markov chain on them. Every three hours, it generates a spurious factoid from the Markov chain and tweets it.
+This is the source code to the Twitterbot @fishexist. Every day, it scrapes [this episode list](https://nstaaf.fandom.com/wiki/List_of_Episodes_of_No_Such_Thing_As_A_Fish) for [No Such Thing as a Fish](http://qi.com/podcast/), the podcast from the QI elves. It then strips out the interesting facts and trains a Markov chain on them. Every three hours, it generates a spurious factoid from the Markov chain and tweets it.
 
 ## Example output
 
