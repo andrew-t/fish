@@ -2,3 +2,6 @@ example output.txt
 facts.json
 creds.json
 node_modules
+*.log
+Markov
+
