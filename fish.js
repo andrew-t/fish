@@ -37,7 +37,7 @@ function sanitise(fact) {
 }
 
 function clean(fact) {
-	return fact.trim().replace(/\s+\([^\(]+\)[^a-z]*$/i, '');
+	return fact.trim().replace(/\s+\([^\(]+\)[^a-z]*$|\[\d+\]/ig, '');
 }
 
 module.exports = async function Fish(cache, order = 2) {
